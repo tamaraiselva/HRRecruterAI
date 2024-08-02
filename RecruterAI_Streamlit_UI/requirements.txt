@@ -1,0 +1,11 @@
+streamlit
+modal
+streamlit-antd-components
+requests
+pymongo
+pandas
+urllib3
+ast
+numpy
+python-dotenv
+deprecation

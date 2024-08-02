@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+motor
+sqlalchemy
+python-dotenv
+pydantic
+langchain_huggingface
+langchain-community
+mysql-connector-python
