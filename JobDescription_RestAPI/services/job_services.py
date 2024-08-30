@@ -48,12 +48,12 @@ async def get_jd(id: int) -> Optional[JobDescription]:
 
 async def create_jd(jd_data: JobDescriptionCreate) -> JobDescription:
     job_desc_prompt_template = """Create a job description based on the following details:
-            Company Name:
-            Company Description:
-            Experience:
-            Skills:
-            Qualification:
-            Include only the information specified in {user_input}. Do not add any additional details or commentary.Output the results with the following fields : Company Name, Company Experience, Skills, Qualification.
+            job Title
+            Company Introduction
+            Job Description
+            Responsibilities
+            Skills and Qualifications
+            Include only the information specified in {user_input}. Do not add any additional details or commentary.Output the results with the following fields : job Title, Company Introduction, Job Description, Responsibilities, Skills and Qualifications.
             text: {user_input}
         """
     job_desc_prompt = ChatPromptTemplate.from_template(job_desc_prompt_template)
@@ -89,12 +89,12 @@ async def update_jd(id: int, jd_data: JobDescriptionUpdate) -> Optional[JobDescr
 
     if jd_data.prompt:
         job_desc_prompt_template = """Create a job description based on the following details:
-            Company Name:
-            Company Description:
-            Experience:
-            Skills:
-            Qualification:
-            Include only the information specified in {user_input}. Do not add any additional details or commentary.Output the results with the following fields : Company Name, Company Experience, Skills, Qualification.
+            job Title
+            Company Introduction
+            Job Description
+            Responsibilities
+            Skills and Qualifications
+            Include only the information specified in {user_input}. Do not add any additional details or commentary.Output the results with the following fields : job Title, Company Introduction, Job Description, Responsibilities, Skills and Qualifications.
             text: {user_input}
         """
 
