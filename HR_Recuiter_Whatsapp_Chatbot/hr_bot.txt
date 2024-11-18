@@ -1,0 +1,159 @@
+Here’s how you can handle the responses based on user inputs:
+
+## HR Bot Interaction
+
+# Greeting Message:
+
+Q: How does the HR Bot greet users?
+A: "Hi there! Welcome to the HR Bot. How can I assist you today?"
+   - Type "job" to see available jobs.
+
+   - Type "apply" to apply for a job.
+
+   - Type "interview" to schedule an interview.
+
+   - Type "status" to check your application status.
+
+   - Type "faq" for frequently asked questions.
+
+
+# Available Jobs:
+
+Q: "Job"?
+A: "Here are the available job positions:
+   - Developer
+   - Tester
+   - Project Manager
+   - Designer
+   - Analyst
+   If you want more details about any of these positions, contact hr@gmail.com"
+
+
+# Applying for a Job:
+
+Q: "Apply"?
+A: "You can start the job application process by providing your resume and details. Please follow the instructions provided in the application form."
+
+
+## Scheduling an Interview
+
+Q: "Interview"?
+A: "To schedule an interview, please choose an available slot for the initial screening:
+    1. Tomorrow 10 AM
+    2. Tomorrow 2 PM
+    3. Next Monday 11 AM
+    4. Next Monday 3 PM
+    Type the number of your preferred slot."
+
+**If the user selects a number:**
+
+1. **If the user types "1":**
+   - A: "You have scheduled your initial screening interview for tomorrow at 10 AM. You will receive a confirmation email with the details shortly."
+
+2. **If the user types "2":**
+   - A: "You have scheduled your initial screening interview for tomorrow at 2 PM. You will receive a confirmation email with the details shortly."
+
+3. **If the user types "3":**
+   - A: "You have scheduled your initial screening interview for next Monday at 11 AM. You will receive a confirmation email with the details shortly."
+
+4. **If the user types "4":**
+   - A: "You have scheduled your initial screening interview for next Monday at 3 PM. You will receive a confirmation email with the details shortly."
+
+**If the user types an invalid number:**
+   - A: "The slot you selected is not available. Please choose a valid number from the options provided."
+
+
+## Checking Application Status
+
+Q: How can I check the status of my application?**
+A: "To check the status of your application, please provide your application ID or contact the HR department at hr@gmail.com."
+
+   **If the user provides an application ID like "001":**
+   A: "Thank you for providing your application ID. I will check the status for ID 001 and get back to you shortly. Please hold on while I retrieve the information."
+
+   **If the status is available:**
+   A: "Your application ID 001 is currently under review. We will notify you of any updates via email."
+
+   **If the status is not available or the ID is incorrect:**
+   A: "I’m unable to find the status for application ID 001. Please ensure the ID is correct or contact the HR department at hr@gmail.com for further assistance."
+
+
+#Frequently Asked Questions (FAQ):
+
+Q: "faq"?
+A: "Here are some frequently asked questions:
+   - What are the interview rounds?
+   - How can I prepare for an interview?
+   - What benefits are offered?
+   If you have specific questions, just ask!"
+
+
+## Interview Scheduling:
+
+Q: How do I choose an interview slot?
+A: "After typing 'interview', you will see options to select a slot. Choose by typing the corresponding number, and your interview will be scheduled accordingly."
+
+
+## Interview Rounds and Schedule
+
+Q: What are the rounds in the interview process?
+A: Our interview process consists of the following rounds:
+   1. Initial Screening
+   2. Technical Interview
+   3. HR Interview
+
+## Interview Slot Selection
+
+Q: What happens after I select an interview slot?
+A: If you choose a slot by typing the number (1, 2, 3, or 4), your interview will be scheduled for that time, and you will receive a confirmation.
+
+
+## Job Role Details
+
+Q: Where can I find details about the job role?
+A: Job role details are available in the job posting or can be provided by the HR representative during the interview process.
+
+
+## Offer Letter
+
+Q: When will I receive an offer letter?
+A: Offer letters are usually sent within a week after the final interview round, pending internal approvals.
+
+Q: What should I do if I have questions about the offer letter?
+A: Contact the HR department at hr@gmail.com for any questions or clarifications about the offer letter.
+
+
+## Selected Candidates
+
+Q: How will I know if I have been selected for the job?
+A: Selected candidates will receive a formal offer letter via email. You will also be notified by phone.
+
+Q: What should I do after receiving the offer letter?
+A: Review the offer letter thoroughly, sign it, and return it to the HR department by the specified deadline.
+
+
+## Interview Status and Updates
+
+Q: How can I check the status of my interview?
+A: You can check the status of your interview by contacting the HR department at hr@gmail.com.
+
+Q: How long does it take to get feedback after an interview?
+A: Feedback is typically provided within a week of the interview. If there are delays, HR will communicate the reasons.
+
+
+## Frequently Asked Questions
+
+Q: What are some common questions asked during interviews?
+A: Common questions include inquiries about your previous experience, technical skills, problem-solving abilities, and career aspirations.
+
+Q: How can I best prepare for an interview?
+A: Research the company, review the job description, practice common interview questions, and prepare examples of your past work and achievements.
+
+
+## Job Role Clarification
+
+Q: Who can I contact for more information about the job role?
+A: For detailed information about the job role, contact the HR department at hr@gmail.com.
+
+Q: What are the key responsibilities of the job?
+A: The key responsibilities are outlined in the job description provided in the job posting and can be discussed during the interview process.

@@ -4,10 +4,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.user import user
 from exceptions.exceptions import InvalidUserException
 from routes.login_router import login_router
+from routes.admin_router import admin
+from routes.members_router import members
 from routes.password_reset import password_reset_router
 from config.db import conn
 import bcrypt
+import logging
 
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+from routes.response_router import response_router
 
 app = FastAPI(title="User Management")
 
@@ -29,14 +37,19 @@ app.add_middleware(
 
 @app.exception_handler(InvalidUserException)
 async def invalid_user_handler(request: Request, exc: InvalidUserException):
+    logger.warning(f"InvalidUserException: {exc.detail} - Request: {request.url}")
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": exc.detail},
     )
 
 app.include_router(user)
+app.include_router(admin)
+app.include_router(members)
 app.include_router(login_router)
 app.include_router(password_reset_router)
+app.include_router(response_router)
+
 
 def get_next_sequence_value(sequence_name):
     seq = conn.local.counters.find_one_and_update(
@@ -80,6 +93,7 @@ def startup():
             "whatsapp_cloud_number_id": admin_whatsapp_cloud_number_id
         }
         conn.local.user.insert_one(admin)
+        logger.info(f"Admin created with email {admin['email']}")
 
 if __name__ == "__main__":
     import uvicorn

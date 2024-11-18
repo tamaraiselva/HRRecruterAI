@@ -18,5 +18,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 app.include_router(jd_router, prefix="/api/v1/jd", tags=["Job Descriptions"])

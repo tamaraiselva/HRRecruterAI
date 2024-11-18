@@ -22,8 +22,6 @@ class WhatsAppWrapper:
         }
         self.API_URL = self.API_URL + self.WHATSAPP_CLOUD_NUMBER_ID
 
-        print(self.API_URL)
-
     def convert_int64_to_int(self, data):
         if isinstance(data, dict):
             return {key: self.convert_int64_to_int(value) for key, value in data.items()}
@@ -50,10 +48,9 @@ class WhatsAppWrapper:
 
         # Convert payload to ensure no int64 types
         payload = self.convert_int64_to_int(payload)
-
-        print("Payload: ", json.dumps(payload, indent=4))
-        response = requests.post(f"{self.API_URL}/messages", json=payload, headers=self.headers)
-        print("Response: ", response)
+        url = f"{self.API_URL}/messages"
+        print(url)
+        response = requests.post(url, json=payload, headers=self.headers)
         assert response.status_code == 200, f"Error sending message: {response.text}"
         return response.status_code
 

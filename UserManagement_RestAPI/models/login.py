@@ -19,8 +19,8 @@ class LoginRequest(BaseModel):
     def validate_password(cls, v):
         if len(v) < 8:
             raise InvalidUserException(detail='Password must be at least 8 characters long')
-        if not v[0].isupper():
-            raise InvalidUserException(detail='Password must start with an uppercase letter')
+        if not any(char.isupper() for char in v):
+            raise InvalidUserException(detail='Password must contain at least one uppercase letter')
         if not any(char.isdigit() for char in v):
             raise InvalidUserException(detail='Password must contain at least one digit')
         if not any(char.islower() for char in v):

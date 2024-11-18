@@ -1,0 +1,9 @@
+flask
+python-dotenv
+aiohttp
+requests
+langchain
+langchain-community
+python-dotenv
+faiss-cpu
+sentence-transformers

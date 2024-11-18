@@ -39,7 +39,7 @@ try:
     llm1 = HuggingFaceEndpoint(repo_id=repo_id1, temperature=0.5, max_length=200)
 except Exception as e:
     logger.error(f"Invalid Huggingface API token: {e}")
-    raise HTTPException(status_code=500, detail="Huggingface token invalid")
+    raise HTTPException(status_code=500, detail="Failed to initialize LLM")
 
 # Function to extract keywords from job description
 def extract_keywords(job_description_text):
@@ -94,7 +94,11 @@ async def create_resource(resource_data: ResourceCreate) -> Resource:
         "resource": [candidates]
     }
 
-    await Resource_collection.insert_one(resource_dict)
+    try:
+        await Resource_collection.insert_one(resource_dict)
+    except Exception as e:
+        logger.error(f"Failed to insert resource into MongoDB: {e}")
+        raise HTTPException(status_code=500, detail="Database error")
     return Resource(**resource_dict)
 
 async def get_all_resources() -> List[Resource]:
@@ -102,7 +106,11 @@ async def get_all_resources() -> List[Resource]:
     return [Resource(**resource) for resource in resources]
 
 async def get_resource_by_id(id: int) -> Optional[Resource]:
-    resource = await Resource_collection.find_one({"id": id})
+    try:
+        resource = await Resource_collection.find_one({"id": id})
+    except Exception as e:
+        logger.error(f"Error fetching resource with id {id}: {e}")
+        return None
     if resource:
         return Resource(**resource)
     return None
@@ -132,7 +140,7 @@ def filter_candidates(Experience, Skills, Qualification):
         Experience greater than {experience}.
         Skills including {skills}.
         Qualifications including {qualification}.
-        Output the results with the following fields: id, name, email, mobile number, Education, Experience.
+        Output the results with the following fields: id, full_name, email_address, phone_number, education, work_experience.
         """
     skills_str = ", ".join(Skills) if Skills else "any"
     qualification_str = ", ".join(Qualification) if Qualification else "any"

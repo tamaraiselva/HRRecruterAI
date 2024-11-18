@@ -9,3 +9,9 @@ ast
 numpy
 python-dotenv
 deprecation
+streamlit_calendar
+streamlit_shadcn_ui
+python-docx 
+docx2pdf 
+pythoncom
+reportlab

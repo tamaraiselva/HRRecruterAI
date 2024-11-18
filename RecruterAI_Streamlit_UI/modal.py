@@ -174,3 +174,4 @@ def container(title=None, padding=20, max_width=None):
     _default_modal.max_width = max_width
     with _default_modal.container() as _container:
         yield [_container]
+

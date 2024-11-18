@@ -25,6 +25,7 @@ repo_id = "mistralai/Mistral-7B-Instruct-v0.2"
 
 try:
     llm = HuggingFaceEndpoint(repo_id=repo_id, temperature=0.5, max_length=200)
+    logger.info("HuggingFace endpoint initialized successfully.")
 except Exception as e:
     logger.error(f"Error initializing HuggingFaceEndpoint: {e}")
     raise HTTPException(status_code=500, detail=f"Huggingface token invalid: {e}")
@@ -57,8 +58,11 @@ async def create_jd(jd_data: JobDescriptionCreate) -> JobDescription:
             text: {user_input}
         """
     job_desc_prompt = ChatPromptTemplate.from_template(job_desc_prompt_template)
+    logger.info("Job description prompt template created.")
+
     try:
         job_desc_chain = LLMChain(llm=llm, prompt=job_desc_prompt)
+        logger.info("LLMChain created successfully.")
     except Exception as e:
         logger.error(f"Error creating LLMChain: {e}")
         raise HTTPException(status_code=500, detail="Bad response for Huggingface key")
@@ -66,11 +70,13 @@ async def create_jd(jd_data: JobDescriptionCreate) -> JobDescription:
     try:
         job_description_result = job_desc_chain.invoke({"user_input": jd_data.prompt})
         job_description_text = job_description_result.get('text', "")
+        logger.info("Job description generated successfully.")
     except Exception as e:
         logger.error(f"Error invoking LLMChain: {e}")
         raise HTTPException(status_code=500, detail="Error generating job description")
 
     new_id = await job_description_collection.count_documents({}) + 1
+    logger.debug(f"New job description ID generated: {new_id}")
     
     jd_dict = {
         "id": new_id,
@@ -78,6 +84,7 @@ async def create_jd(jd_data: JobDescriptionCreate) -> JobDescription:
         "job_description": job_description_text
     }
     await job_description_collection.insert_one(jd_dict)
+    logger.info(f"Job description with ID {new_id} inserted into the database.")
     return JobDescription(**jd_dict)
 
 async def update_jd(id: int, jd_data: JobDescriptionUpdate) -> Optional[JobDescription]:
@@ -112,6 +119,7 @@ async def update_jd(id: int, jd_data: JobDescriptionUpdate) -> Optional[JobDescr
         try:
             job_description_result = job_desc_chain.invoke({"user_input": jd_data.prompt})
             job_description_text = job_description_result.get('text', "")
+            logger.info("Job description generated successfully.")
         except Exception as e:
             logger.error(f"Error invoking LLMChain: {e}")
             raise HTTPException(status_code=500, detail="Error generating job description")
@@ -123,6 +131,7 @@ async def update_jd(id: int, jd_data: JobDescriptionUpdate) -> Optional[JobDescr
 
     if update_data:
         await job_description_collection.update_one({"id": id}, {"$set": update_data})
+        logger.info(f"Job description with ID {id} update into the database.")
         jd = await job_description_collection.find_one({"id": id})
         return JobDescription(**jd_helper(jd))
 
