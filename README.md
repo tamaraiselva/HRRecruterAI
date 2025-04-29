@@ -223,7 +223,7 @@ The platform extracts keywords from generated job descriptions using Mistral-7B-
 
 **How it works:** Keywords are extracted from job descriptions to refine the candidate search process.
 
-![Keyword Extraction](Image\image-3.png)
+![Keyword Extraction](Image/image-3.png)
 *Figure 3: Extracting keywords from job descriptions to aid in candidate shortlisting.*
  
 #### **Candidate Filtering** 
@@ -231,7 +231,7 @@ The platform filters candidates based on extracted keywords, generating SQL quer
 
 **How it Works:** Using the extracted keywords, the platform generates SQL queries to filter candidates from the database. The filtered candidates are stored in MongoDB and displayed via Streamlit.
 
-![Candidate Filtering](Image\image-4.png)
+![Candidate Filtering](Image/image-4.png)
 *Figure 4: The process of filtering candidates using extracted keywords and storing them in MongoDB.*
 
 ## Benefits
