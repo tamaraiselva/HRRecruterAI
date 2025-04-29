@@ -186,9 +186,9 @@ The HR team reviews the AI-generated insights and makes the final hiring decisio
 
 ## **The Architecture of HR Recruiter AI**
 
-At the heart of HR Recruiter AI is a robust architecture that integrates various AI models and tools to deliver a seamless experience. The platform leverages **Streamlit** for web page creation, ensuring an intuitive and user-friendly interface. 
+HR Recruiter AI's heart is a robust architecture that integrates various AI models and tools to deliver a seamless experience. The platform leverages **Streamlit** for web page creation, ensuring an intuitive and user-friendly interface. 
 
-![HR Recruiter AI Architecture](Image\image.png)
+![HR Recruiter AI Architecture](Image/image.png)
 *Figure 1: The architecture of HR Recruiter AI, showcasing the integration of various AI models and tools.*
 
 ## **Key Features**
@@ -199,7 +199,7 @@ login, and password reset functionalities.
 
 **How it works:** Administrators can manage users and panel members efficiently, ensuring secure access to the platform.
 
-![User Management](Image\image-1.png)
+![User Management](Image/image-1.png)
 *Figure 1: User management interface in HR Recruiter AI, highlighting admin and user panels.*
 
 
@@ -208,7 +208,7 @@ The platform uses **Mistral-7B-Instruct-v0.2** from Hugging Face to generate job
 
 **How it works:** HR professionals input free text prompts, and the AI generates detailed job descriptions.
 
-![Job Description Generation](Image\image-2.png)
+![Job Description Generation](Image/image-2.png)
 *Figure 2: The process of generating job descriptions using free text prompts and AI models.*
 
 
