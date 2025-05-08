@@ -2,11 +2,17 @@ import streamlit as st
 import login
 import home
 
+st.set_page_config(
+    page_title="HR Recruiter AI",
+    page_icon="assets/logo.png",
+)
+
 def main():
     if "login_state" not in st.session_state:
         st.session_state.login_state = False
 
     if st.session_state.login_state:
+        st.sidebar.image("assets/logo.png", use_container_width=True)
         # Sidebar for page navigation
         st.sidebar.title("HR Recruter AI")
         # Optional separator line for better visual separation

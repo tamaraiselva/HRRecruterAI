@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 
 class EmailConfig_User:
     # Email account credentials
-    EMAIL_ADDRESS = 'padmanabhanhydra@gmail.com'
+    EMAIL_ADDRESS = 'tamamaraiselvan@gmail.com'
     EMAIL_PASSWORD = 'qkdb gyjg waha xscw'
     
     @classmethod

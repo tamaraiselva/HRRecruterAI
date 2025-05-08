@@ -7,7 +7,7 @@ app = FastAPI(title="JD-RecruiterAI")
 origins = [
     "*",
     "http://localhost",
-    "http://localhost:8082" 
+    "http://localhost:8086" 
 ]
 
 app.add_middleware(
@@ -17,5 +17,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(jd_router, prefix="/api/v1/jd", tags=["Job Descriptions"])

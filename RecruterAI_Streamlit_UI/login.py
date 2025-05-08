@@ -35,7 +35,7 @@ def validate_mobile_number(mobile_number):
     return re.match(r"^\d{10}$", mobile_number)
 
 def login(payload):
-    url = 'http://localhost:8083/api/v1/login'  
+    url = 'http://localhost:8084/api/v1/login'  
     response = requests.post(url, json=payload)
     if response.status_code == 200:
         user_data = response.json()
@@ -53,7 +53,7 @@ def login(payload):
         return False, "Invalid Username or Password"
 
 def signup(payload):
-    url = 'http://localhost:8083/api/v1/user'
+    url = 'http://localhost:8084/api/v1/user'
     response = requests.post(url, json=payload)
     if response.status_code == 201:  # 201 is used for resource creation
         return True, response.json()
@@ -63,7 +63,7 @@ def signup(payload):
         return False, response.text
 
 def fetch_user_data(user_id=None):
-    url = 'http://localhost:8083/api/v1/users'
+    url = 'http://localhost:8084/api/v1/users'
     if user_id:
         url += f'/{user_id}'
     response = requests.get(url)
@@ -73,7 +73,7 @@ def fetch_user_data(user_id=None):
         return None
 
 def reset_password(email, new_password):
-    url = f'http://localhost:8083/api/v1/password_reset/{email}'
+    url = f'http://localhost:8084/api/v1/password_reset/{email}'
     response = requests.put(url, json={"new_password": new_password})
     if response.status_code == 200:
         return True, "Password Reseted Successfully"
@@ -282,7 +282,9 @@ def show_forgot_password_page():
         st.rerun()
 
 def main():
+    st.image("assets/logo.png", width=250)
     st.title("HR Recruiter AI")
+    
 
     if "page" not in st.session_state:
         st.session_state.page = "login"

@@ -25,6 +25,20 @@ import pythoncom
 import pymongo
 import logging
 from dotenv import load_dotenv
+import json
+
+# Add this after your imports
+def convert_numpy_types(obj):
+    """Convert numpy types to native Python types for JSON serialization."""
+    if isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    return obj
 
 load_dotenv()
 
@@ -53,6 +67,7 @@ def main():
     calls_collection = db["call_conversations"]
 
     st.title("HR Recruiter AI")
+    st.image("assets/logo.png", width=50)
 
     # if 'logged_in' not in st.session_state or not st.session_state.logged_in:
     #     switch_page("login")
@@ -242,8 +257,8 @@ def main():
         return re.match(r"^\d{10}$", mobile_number)
     
     # Function to show the delete confirmation modal
-    # @st.experimental_dialog("Delete Confirmation")
-    @st.experimental_dialog("Delete Confirmation")
+    # @st.dialog("Delete Confirmation")
+    @st.dialog("Delete Confirmation")
     def Delete_Panel(panel):
         st.write(f"Are you sure you want to delete {panel['name']}?")
         col1, col2 = st.columns(2)
@@ -257,8 +272,8 @@ def main():
                 st.rerun()
 
     # Function to show the delete confirmation modal
-    # @st.experimental_dialog("Delete Confirmation")
-    @st.experimental_dialog("Delete Confirmation")
+    # @st.dialog("Delete Confirmation")
+    @st.dialog("Delete Confirmation")
     def Delete_Users(user):
         st.write(f"Are you sure you want to delete {user['name']}?")
         col1, col2 = st.columns(2)
@@ -272,8 +287,8 @@ def main():
                 st.rerun()
 
     # Function to show the delete confirmation modal
-    # @st.experimental_dialog("Delete Confirmation")
-    @st.experimental_dialog("Delete Confirmation")
+    # @st.dialog("Delete Confirmation")
+    @st.dialog("Delete Confirmation")
     def Delete_Members(member):
         st.write(f"Are you sure you want to delete {member['name']}?")
         col1, col2 = st.columns(2)
@@ -346,7 +361,7 @@ def main():
         return pdf_buffer
         
     # Function to show the PDF download dialog
-    @st.experimental_dialog("Download PDF")
+    @st.dialog("Download PDF")
     def download_pdf_dialog(job_description):
         st.write("Click below to download the job description as a PDF:")
         with st.spinner('Loading...'):
@@ -371,7 +386,7 @@ def main():
                 st.error("Failed to fetch job description for download.")
 
     # Function to show the confirmation dialog for editing the job description
-    @st.experimental_dialog("Confirm Edit")
+    @st.dialog("Confirm Edit")
     def confirm_edit_dialog():
         st.write("Do you want to edit the job description?")
         col1, col2 = st.columns(2)
@@ -389,7 +404,7 @@ def main():
                 st.rerun()
 
     # Function to confirm editing for users
-    @st.experimental_dialog("Confirm Edit for Users")
+    @st.dialog("Confirm Edit for Users")
     def confirm_edit_user_dialog():
         st.write("Do you want to edit the user details?")
         col1, col2 = st.columns(2)
@@ -406,7 +421,7 @@ def main():
                 st.rerun()
 
     # Function to confirm editing for Manage job
-    @st.experimental_dialog("Confirm Edit for Manage Job")
+    @st.dialog("Confirm Edit for Manage Job")
     def confirm_edit_manage_job_dialog():
         st.write("Do you want to edit the manage job details?")
         col1, col2 = st.columns(2)
@@ -423,7 +438,7 @@ def main():
                 st.rerun()
 
     # Function to confirm editing for users
-    @st.experimental_dialog("Confirm Edit for Manage Job")
+    @st.dialog("Confirm Edit for Manage Job")
     def confirm_edit_member_dialog():
         st.write("Do you want to edit the Member details?")
         col1, col2 = st.columns(2)
@@ -901,7 +916,7 @@ def main():
     def fetch_and_store_call_details(call_id, mongo_client):
         url = f"https://api.bland.ai/v1/calls/{call_id}"
         headers = {
-            "Authorization": authorization_key,
+            "Authorization": "org_59fd44d12baf41033bdd9742f0647b9bc69f673e358005a3382e16e5c7f1d2f1eda536d34e57aa723fd269",
             "Content-Type": "application/json"
         }
 
@@ -996,8 +1011,10 @@ def main():
                 }
 
                 try:
-                    client_Email = EmailConfig_User()
-                    client_Email.send_email_candidate(candidate_email, candidate_name, st.session_state.get('selected_job_id'))
+                    # client_Email = EmailConfig_User()
+                    # client_Email.send_email_candidate(candidate_email, candidate_name, st.session_state.get('selected_job_id'))
+                    # Convert NumPy types to native Python types before serializing to JSON
+                    message_payload = json.loads(json.dumps(message_payload, default=convert_numpy_types))
                     message_response = requests.post("http://localhost:5000/send_message", json=message_payload)
                     message_response.raise_for_status()
                     if message_response.status_code == 200:
@@ -1012,8 +1029,8 @@ def main():
                 except requests.exceptions.HTTPError as http_err:
                     error_messages.append(f"HTTP error occurred while sending WhatsApp message for candidate ID: {candidate['ID']} - {http_err}")
                     logger.error(f"HTTP error occurred while sending WhatsApp message for candidate ID: {candidate['ID']} - {http_err}")
-                if not phone_number.startswith("+91"):
-                    phone_number = "+91" + phone_number
+                if not str(phone_number).startswith("+91"):
+                    phone_number = "+91" + str(phone_number)
 
                 call_payload = {
                     "phone_number": phone_number,
@@ -1021,7 +1038,7 @@ def main():
                     # "max_duration": 0.20  # Set maximum call duration to 20 seconds
                 }
                 call_headers = {
-                    "authorization": authorization_key,
+                    "authorization": "org_59fd44d12baf41033bdd9742f0647b9bc69f673e358005a3382e16e5c7f1d2f1eda536d34e57aa723fd269",
                     "Content-Type": "application/json"
                 }
 
@@ -1095,7 +1112,7 @@ def main():
 
 
     def fetch_user_data():
-        url = 'http://localhost:8083/api/v1/user'
+        url = 'http://localhost:8084/api/v1/user'
         response = requests.get(url)
         if response.status_code == 200:
             return response.json()
@@ -1104,7 +1121,7 @@ def main():
             return []
         
     def fetch_user_data_by_id(id):
-        url = f'http://localhost:8083/api/v1/user/{id}'
+        url = f'http://localhost:8084/api/v1/user/{id}'
         response = requests.get(url)
         if response.status_code == 200:
             return response.json()
@@ -1114,7 +1131,7 @@ def main():
         
     # Function to update user data
     def update_user_data(user_id, updated_user):
-        url = f'http://localhost:8083/api/v1/user/{user_id}'
+        url = f'http://localhost:8084/api/v1/user/{user_id}'
         response = requests.put(url, json=updated_user)
         if response.status_code == 200:
             #st.success("User updated successfully!")
@@ -1125,7 +1142,7 @@ def main():
 
     # Function to delete user
     def delete_user(user_id):
-        url = f'http://localhost:8083/api/v1/user/{user_id}'
+        url = f'http://localhost:8084/api/v1/user/{user_id}'
         response = requests.delete(url)
         if response.status_code == 200:
             #st.success("User deleted successfully!")
@@ -1138,7 +1155,7 @@ def main():
 
     # Add User function
     def add_user(user):
-        url = 'http://localhost:8083/api/v1/admin'
+        url = 'http://localhost:8084/api/v1/admin'
         response = requests.post(url, json=user)
         if response.status_code == 201:
             emailjson = response.json()
@@ -1154,7 +1171,7 @@ def main():
     
     # Function to fetch member data
     def fetch_member_data():
-        url = 'http://localhost:8083/api/v1/member'
+        url = 'http://localhost:8084/api/v1/member'
         response = requests.get(url)
         if response.status_code == 200:
             return response.json()
@@ -1168,7 +1185,7 @@ def main():
         
     # Function to update member data
     def update_member_data(member_id, updated_member):
-        url = f'http://localhost:8083/api/v1/member/{member_id}'
+        url = f'http://localhost:8084/api/v1/member/{member_id}'
         response = requests.put(url, json=updated_member)
         if response.status_code == 200:
             #st.success("User updated successfully!")
@@ -1179,7 +1196,7 @@ def main():
 
     # Function to delete member_id
     def delete_member(member_id):
-        url = f'http://localhost:8083/api/v1/member/{member_id}'
+        url = f'http://localhost:8084/api/v1/member/{member_id}'
         response = requests.delete(url)
         if response.status_code == 200:
             #st.success("User deleted successfully!")
@@ -1190,7 +1207,7 @@ def main():
 
     # Add member function
     def add_member(member):
-        url = 'http://localhost:8083/api/v1/member'
+        url = 'http://localhost:8084/api/v1/member'
         response = requests.post(url, json=member)
         if response.status_code == 201:
             emailjson = response.json()
@@ -1453,7 +1470,7 @@ def main():
     if edit_job_modal.is_open():
         with edit_job_modal.container():
             # Load existing member data
-            url = "http://localhost:8083/api/v1/member/"
+            url = "http://localhost:8084/api/v1/member/"
             response = requests.get(url)
             if response.status_code == 200:
                 member_data = response.json()
@@ -1528,7 +1545,7 @@ def main():
     if add_job_modal.is_open():
         with add_job_modal.container():
             
-            url = "http://localhost:8083/api/v1/member/"
+            url = "http://localhost:8084/api/v1/member/"
             response = requests.get(url)
             if response.status_code == 200:
                 member_data = response.json()

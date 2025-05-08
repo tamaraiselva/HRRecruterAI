@@ -10,7 +10,8 @@ numpy
 python-dotenv
 deprecation
 streamlit_calendar
-streamlit_shadcn_ui
+streamlit-shadcn-ui
+reportlab
 python-docx 
 docx2pdf 
 pythoncom

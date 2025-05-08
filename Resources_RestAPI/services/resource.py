@@ -34,12 +34,16 @@ if not mysql_uri:
     raise HTTPException(status_code=500, detail="MySQL URI not set in environment variables")
 
 # Initialize LLM
-repo_id1 = "mistralai/Mistral-7B-Instruct-v0.2"
+repo_id1 = "mistralai/Mistral-7B-Instruct-v0.3"
 try:
-    llm1 = HuggingFaceEndpoint(repo_id=repo_id1, temperature=0.5, max_length=200)
+    llm1 = HuggingFaceEndpoint(
+        model=repo_id1, 
+        temperature=0.5,
+        task="text-generation"  # Explicitly specify the task
+    )
 except Exception as e:
     logger.error(f"Invalid Huggingface API token: {e}")
-    raise HTTPException(status_code=500, detail="Failed to initialize LLM")
+    raise HTTPException(status_code=500, detail="Huggingface token invalid")
 
 # Function to extract keywords from job description
 def extract_keywords(job_description_text):
@@ -94,11 +98,7 @@ async def create_resource(resource_data: ResourceCreate) -> Resource:
         "resource": [candidates]
     }
 
-    try:
-        await Resource_collection.insert_one(resource_dict)
-    except Exception as e:
-        logger.error(f"Failed to insert resource into MongoDB: {e}")
-        raise HTTPException(status_code=500, detail="Database error")
+    await Resource_collection.insert_one(resource_dict)
     return Resource(**resource_dict)
 
 async def get_all_resources() -> List[Resource]:
@@ -106,11 +106,7 @@ async def get_all_resources() -> List[Resource]:
     return [Resource(**resource) for resource in resources]
 
 async def get_resource_by_id(id: int) -> Optional[Resource]:
-    try:
-        resource = await Resource_collection.find_one({"id": id})
-    except Exception as e:
-        logger.error(f"Error fetching resource with id {id}: {e}")
-        return None
+    resource = await Resource_collection.find_one({"id": id})
     if resource:
         return Resource(**resource)
     return None
@@ -140,7 +136,7 @@ def filter_candidates(Experience, Skills, Qualification):
         Experience greater than {experience}.
         Skills including {skills}.
         Qualifications including {qualification}.
-        Output the results with the following fields: id, full_name, email_address, phone_number, education, work_experience.
+        Output the results with the following fields: id, full_name, email_address, phone_number, education, work_experience
         """
     skills_str = ", ".join(Skills) if Skills else "any"
     qualification_str = ", ".join(Qualification) if Qualification else "any"

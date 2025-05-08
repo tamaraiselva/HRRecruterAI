@@ -70,7 +70,7 @@ def startup():
     admin_id=get_next_sequence_value('userid')
     admin_name = "Admin"
     admin_email = "admin@gmail.com"
-    admin_mobile_number = 8907654321
+    admin_mobile_number = 9698955228
     admin_password = "Admin@12345"
     admin_location = "Bangalore"
     admin_role = "admin"
@@ -97,4 +97,4 @@ def startup():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8083)
+    uvicorn.run(app, host="127.0.0.1", port=8084)
